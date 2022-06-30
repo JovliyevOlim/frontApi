@@ -7,7 +7,9 @@ const slice = createSlice({
         product:[],
         productone:[],
         current:false,
-        count:''
+        count:'',
+        activelink:false,
+        msg:''
     },
     reducers: {
         getproduct: (state, action) => {
@@ -19,11 +21,20 @@ const slice = createSlice({
             console.log(state.product)
         },
         getproductone: (state, action) => {
-            state.productone = []
-            state.current = !state.current
-            state.productone.push(action.payload)
-            console.log(action.payload)
-            console.log(state.product)
+            if (action.payload.error){
+                console.log(action.payload.msg)
+                state.msg=action.payload.msg
+                state.activelink=true
+            }
+            else{
+                state.activelink=false
+                state.productone = []
+                state.current = !state.current
+                state.productone.push(action.payload)
+                console.log(action.payload)
+                console.log(state.product)
+            }
+
         }
     }
 });
@@ -38,7 +49,8 @@ export const GetProduct=()=>apiCall({
 export const GetProductOne=(data)=>apiCall({
     url: '/product/'+data,
     method: 'get',
-    onSuccess: slice.actions.getproductone.type
+    onSuccess: slice.actions.getproductone.type,
+    onFail: slice.actions.getproductone.type
 })
 export const  GetFilterProduct= (data)=>apiCall({
     url:'/product?name='+data.name+"&category="+data.category+"&limit="+data.limit+"&offset="+data.offset,

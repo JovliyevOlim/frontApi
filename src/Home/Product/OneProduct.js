@@ -7,7 +7,6 @@ import {useEffect} from "react";
 function OneProduct({match,GetProductOne,ProductReducer}) {
 
     useEffect(()=>{
-        console.log(match)
         GetProductOne(match.params.id)
     },[])
 

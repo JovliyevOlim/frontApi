@@ -15,6 +15,12 @@ export const api = ({dispatch}) => (next) => (action) => {
             type: onSuccess,
             payload: res.data
         })
+    }).catch(err=>{
+        dispatch({
+            type:onFail,
+            payload:err.response.data
+        })
     })
+
 }
 export default api
